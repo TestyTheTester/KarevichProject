@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://slack.com/signin",
+  "baseUrl": "https://slack.com/signin#/signin",
   "video": false,
   "viewportHeight": 1080,
   "viewportWidth": 1920,

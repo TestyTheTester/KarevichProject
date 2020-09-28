@@ -42,18 +42,31 @@ Cypress.Commands.add('login', (email, password) => {
         signInButton: '[data-qa="signin_button"]',
     };
 
-    //Visits the default URL and checks if the website is loading correctly
+    //Visits the default URL
     cy.visit('/');
-    cy.url().should('include', 'slack.com');
 
-    //Clicks the button that will open custom workspace login page
-    const signInManualButton = '[href="/workspace-signin"]';
-    cy.get(signInManualButton).click();
+    //Checks URL and selects scenario
+    let currentURL;
+    cy.url().then(url => {
+        currentURL = url;
+
+        if(currentURL === 'https://slack.com/signin#/signin/') {
+
+            //Clicks the button that will open custom workspace login page
+            const signInManualButton = '[href="/workspace-signin"]';
+            cy.get(signInManualButton).click();
+        } else {
+
+            //
+            const continueButton = '[data-qa="submit_team_domain_button"]';
+            cy.get('#domain').type('testythetesterltd');
+            cy.get(continueButton).click();
+        }
+    });
 
     //
-    const workspaceField = '[data-qa="signin_domain_input"]';
     const continueButton = '[data-qa="submit_team_domain_button"]';
-    cy.get(workspaceField).type('testythetesterltd');
+    cy.get('#domain').type('testythetesterltd');
     cy.get(continueButton).click();
 
     cy.get(loginForm.email)
@@ -61,4 +74,6 @@ Cypress.Commands.add('login', (email, password) => {
     cy.get(loginForm.password)
         .type(password);
     cy.get(loginForm.signInButton).click();
+
+    cy.url().should('include', 'slack.com');
 });
