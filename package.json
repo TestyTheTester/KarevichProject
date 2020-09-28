@@ -15,7 +15,10 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "fix-codestyle": "eslint --fix --ext .js,.vue resources",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "cy:first": "cypress run --spec=**/firstTest.spec.js --headed --browser chrome",
+    "cy:second": "cypress run --spec=**/secondTest.spec.js --headed --browser chrome",
+    "test": "concurrently \"npm run cy:first\" \"wait-on 'cypress/integration/Tests/secondTest.spec.js' && npm run cy:second\""
   },
   "nyc": {
     "include": [
@@ -98,6 +101,7 @@
     "babel-loader": "~8.0",
     "babel-plugin-istanbul": "^6.0.0",
     "compression-webpack-plugin": "~2.0",
+    "concurrently": "^5.3.0",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "~5.2",
     "css-loader": "~2.1",
@@ -139,6 +143,7 @@
     "url-loader": "^3.0.0",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.11",
+    "wait-on": "^5.2.0",
     "webpack": "^4.3.0",
     "webpack-bundle-analyzer": "~3.3",
     "webpack-cli": "^3.3.12",
