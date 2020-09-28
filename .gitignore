@@ -1,0 +1,41 @@
+# dev stuff
+error_log
+**/error_log
+php_error.log
+npm-debug.log
+yarn-error.log
+test.php
+eslint.xml
+
+# misc
+.DS_Store
+.env.php
+Homestead.json
+Homestead.yaml
+.env
+/mix-manifest.json
+
+public/
+/storage/*.key
+
+# IntellijIdea files
+*.iml
+/.idea
+.vscode
+
+/.phpstorm.meta.php
+/_ide_helper.php
+/composer.phar
+
+# dependencies
+/node_modules
+vendor
+composer.lock
+yarn.lock
+!.env.*
+
+#reports
+report.*.json
+.nyc_output
+coverage
+cypress/screenshots

@@ -1,0 +1,10 @@
+{
+  "baseUrl": "https://slack.com/signin",
+  "video": false,
+  "viewportHeight": 1080,
+  "viewportWidth": 1920,
+  "chromeWebSecurity": false,
+  "ignoreTestFiles": "**/examples/**",
+  "defaultCommandTimeout": 10000,
+  "retries": 2
+}
