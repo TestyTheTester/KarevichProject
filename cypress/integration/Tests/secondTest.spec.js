@@ -1,9 +1,29 @@
+import { LoremIpsum } from "lorem-ipsum";
+
+const lorem = new LoremIpsum({
+    wordsPerSentence: { max: 5, min: 2 }
+});
+
 describe('Slack Tests', () => {
     beforeEach(() => {
-
+        cy.login('maksim.smilov11@gmail.com', 'qwe123QWE');
     });
 
     it('Second Account', () => {
-        cy.login('maksim.smilov11@gmail.com', 'qwe123QWE');
+
+        //Opens PM
+        cy.contains('MaksimSmilov00').click();
+
+        //Waiting for page loads
+        cy.get('[data-qa="slack_kit_list"]').last().should('be.visible');
+
+        //Waiting till the status will be Active
+        cy.get('[data-qa="channel_name"] > i')
+            .invoke('attr', 'title')
+            .should('equal', 'Active');
+
+        //Send Message
+        cy.get('[aria-label="Send a message to MaksimSmilov00"]')
+            .type(`${lorem.generateSentences(1)}{enter}`);
     });
 });
