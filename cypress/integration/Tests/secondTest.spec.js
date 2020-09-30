@@ -22,8 +22,13 @@ describe('Slack Tests', () => {
             .invoke('attr', 'title')
             .should('equal', 'Active');
 
+        let textMessage = lorem.generateSentences(1);
+
+        //Write text message
+        cy.writeFile('menu.json', {user: 'MaksimSmilov11', message: textMessage});
+
         //Send Message
         cy.get('[aria-label="Send a message to MaksimSmilov00"]')
-            .type(`${lorem.generateSentences(1)}{enter}`);
+            .type(`${textMessage}{enter}`);
     });
 });

@@ -52,6 +52,19 @@ describe('Slack Tests', () => {
         const newMessageBadge = '[data-qa="mention_badge"]';
         cy.get(newMessageBadge).should('be.visible').click({force: true});
 
+        //Waiting for loading a message list and get last message
+        cy.get('[data-qa="slack_kit_scrollbar"]').last()
+            .find('[data-qa="virtual-list-item"]').last()
+            .find('[data-qa="message_content"] .p-rich_text_section').then((textMessage) => {
+            const newMessage = textMessage.text().trim();
+            cy.log(newMessage);
+
+            //Check than message is correct
+            cy.readFile('menu.json').then((message) => {
+                expect(message.message).to.include(newMessage);
+            });
+        });
+
         //Send Message
         cy.get('[aria-label="Send a message to MaksimSmilov11"]')
             .type(`${lorem.generateSentences(1)}{enter}`);
