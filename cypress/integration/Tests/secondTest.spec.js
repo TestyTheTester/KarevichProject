@@ -29,7 +29,7 @@ describe('Slack Tests', () => {
         cy.contains('MaksimSmilov00').click({force: true});
 
         //Waiting for page loads
-        cy.get('[data-qa="message_pane"]').last().should('be.visible');
+        cy.get('[data-qa="message_pane"]').should('be.visible');
 
         //Waiting till the status will be Active
         cy.get('[data-qa="channel_name"] > i')

@@ -26,27 +26,27 @@ describe('Slack Tests', () => {
         //Checks User Status and set to Active
         const userActiveStatus = '[data-qa="user-button"] > div > i';
         cy.get(userActiveStatus).invoke('attr', 'title').then(userTitle => {
-                const title = userTitle;
-                cy.log(`Current Status = ${title}`);
+            const title = userTitle;
+            cy.log(`Current Status = ${title}`);
 
-                //Opens user profile dropdown
-                cy.get(buttons.userProfileButton).should('be.visible').click();
+            //Opens user profile dropdown
+            cy.get(buttons.userProfileButton).should('be.visible').click();
 
-                //Change status. If Away = set Active. If Active = nothing.
-                if(title === 'Away') {
+            //Change status. If Away = set Active. If Active = nothing.
+            if(title === 'Away') {
 
-                    //Set status = Active
-                    cy.get('[data-qa="menu_items"]').should('be.visible')
-                        .find('[data-qa="menu_item_button"]')
-                        .eq(0).click();
-                    cy.log('Your status is changed to Active');
+                //Set status = Active
+                cy.get('[data-qa="menu_items"]').should('be.visible')
+                    .find('[data-qa="menu_item_button"]')
+                    .eq(0).click();
+                cy.log('Your status is changed to Active');
 
-                } else {
+            } else {
 
-                    //Close profile menu
-                    cy.get(buttons.userProfileButton).click({force: true});
-                    cy.log('Your status is Active');
-                }
+                //Close profile menu
+                cy.get(buttons.userProfileButton).click({force: true});
+                cy.log('Your status is Active');
+            }
         });
 
         //Waiting for new message > opens chat after get new message
