@@ -12,12 +12,13 @@ describe('Slack Tests', () => {
     it('Second Account', () => {
 
         //Opens PM
-        cy.contains('MaksimSmilov00').click();
+        cy.contains('MaksimSmilov00').click({force: true});
 
         //Waiting for page loads
         cy.get('[data-qa="slack_kit_list"]').last().should('be.visible');
 
         //Waiting till the status will be Active
+        //TODO: sometimes the test fails because it takes status before the page loads
         cy.get('[data-qa="channel_name"] > i')
             .invoke('attr', 'title')
             .should('equal', 'Active');
