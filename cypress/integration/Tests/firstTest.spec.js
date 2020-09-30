@@ -8,6 +8,9 @@ const lorem = new LoremIpsum({
 describe('Slack Tests', () => {
     beforeEach(() => {
         cy.login('maksim.smilov00@gmail.com', 'qwe123QWE');
+
+        //message to force slack to put the desired status
+        cy.get(fields.generalInput).type(`Status updated{enter}`);
     });
 
     //Variables
@@ -19,12 +22,6 @@ describe('Slack Tests', () => {
     };
 
     it('First Account', () => {
-
-        //Waiting for page loads
-        cy.get('[data-qa="message_pane"]').last().should('be.visible');
-
-        //message to force slack to put the desired status
-        cy.get(fields.generalInput).type(`Status updated{enter}`);
 
         //Checks User Status and set to Active
         const userActiveStatus = '[data-qa="user-button"] > div > i';
@@ -56,12 +53,11 @@ describe('Slack Tests', () => {
         const newMessageBadge = '[data-qa="mention_badge"]';
         cy.get(newMessageBadge).should('be.visible').click({force: true});
 
+        //Waiting for page loads
+        cy.get('[data-qa="message_pane"]').last().should('be.visible');
+
         //Waits only for new message
         cy.get('#unreadDivider').should('contain', 'New');
-
-        //Check than message is correct
-        cy.readFile('menu.json').then((message) => {
-            cy.log(message.message);
 
         //Waiting for loading a message list and get last message
         cy.get('[data-qa="slack_kit_scrollbar"]').last()
@@ -70,8 +66,12 @@ describe('Slack Tests', () => {
             const newMessage = textMessage.text().trim();
             cy.log(newMessage);
 
-            //Compare message from .json and last message from the chat
-            expect(message.message).to.include(newMessage);
+            //Check than message is correct
+            cy.readFile('menu.json').then((message) => {
+                cy.log(message.message);
+
+                //Compare message from .json and last message from the chat
+                expect(message.message).to.include(newMessage);
             });
         });
 
