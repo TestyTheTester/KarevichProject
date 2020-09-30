@@ -18,7 +18,7 @@
     "cy:open": "cypress open",
     "cy:first": "cypress run --spec=**/firstTest.spec.js --headed --browser chrome",
     "cy:second": "cypress run --spec=**/secondTest.spec.js --headed --browser chrome",
-    "cy:run": "concurrently \"npm run cy:first\" \"wait-on 'cypress/integration/Tests/secondTest.spec.js' && npm run cy:second\""
+    "cy:run": "concurrently \"npm run cy:second\" \"wait-on 'cypress/integration/Tests/firstTest.spec.js' && npm run cy:first\""
   },
   "nyc": {
     "include": [
@@ -48,7 +48,6 @@
     "flag-icon-css": "^3.4.6",
     "highcharts": "^7.2.2",
     "highcharts-vue": "^1.2.0",
-    "lodash": "^4.17.20",
     "nouislider": "^14.0.2",
     "siema": "^1.5.1",
     "smooth-scroll": "^14.2.1",
@@ -128,6 +127,7 @@
     "istanbul-lib-coverage": "^2.0.5",
     "jsdom": "^13.0.0",
     "jsdom-global": "^3.0.2",
+    "lodash": "^4.17.20",
     "lorem-ipsum": "^2.0.3",
     "mini-css-extract-plugin": "~0.5",
     "mocha": "^5.2.0",

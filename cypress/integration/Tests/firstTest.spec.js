@@ -1,4 +1,5 @@
 import { LoremIpsum } from "lorem-ipsum";
+import * as _ from 'lodash';
 
 const lorem = new LoremIpsum({
     wordsPerSentence: { max: 5, min: 2 }
@@ -20,7 +21,7 @@ describe('Slack Tests', () => {
     it('First Account', () => {
 
         //Waiting for page loads
-        cy.get('[data-qa="slack_kit_list"]').last().should('be.visible');
+        cy.get('[data-qa="message_pane"]').last().should('be.visible');
 
         //message to force slack to put the desired status
         cy.get(fields.generalInput).type(`Status updated{enter}`);
@@ -44,6 +45,9 @@ describe('Slack Tests', () => {
                     cy.log('Your status is changed to Active');
 
                 } else {
+
+                    //Close profile menu
+                    cy.get(buttons.userProfileButton).click({force: true});
                     cy.log('Your status is Active');
                 }
         });
@@ -52,6 +56,13 @@ describe('Slack Tests', () => {
         const newMessageBadge = '[data-qa="mention_badge"]';
         cy.get(newMessageBadge).should('be.visible').click({force: true});
 
+        //Waits only for new message
+        cy.get('#unreadDivider').should('contain', 'New');
+
+        //Check than message is correct
+        cy.readFile('menu.json').then((message) => {
+            cy.log(message.message);
+
         //Waiting for loading a message list and get last message
         cy.get('[data-qa="slack_kit_scrollbar"]').last()
             .find('[data-qa="virtual-list-item"]').last()
@@ -59,9 +70,8 @@ describe('Slack Tests', () => {
             const newMessage = textMessage.text().trim();
             cy.log(newMessage);
 
-            //Check than message is correct
-            cy.readFile('menu.json').then((message) => {
-                expect(message.message).to.include(newMessage);
+            //Compare message from .json and last message from the chat
+            expect(message.message).to.include(newMessage);
             });
         });
 
