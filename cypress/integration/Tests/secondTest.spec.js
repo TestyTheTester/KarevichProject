@@ -12,6 +12,7 @@ describe('Slack Tests', () => {
         cy.writeFile('menu.json', {user: ' ', message: ' ', time: ' '});
 
         //message to force slack to put the desired status
+        cy.contains('general').click({force: true});
         cy.get(fields.generalInput).type(`Status updated{enter}`);
     });
 
@@ -31,13 +32,20 @@ describe('Slack Tests', () => {
         //Waiting for page loads
         cy.get('[data-qa="message_pane"]').should('be.visible');
 
-        //Waiting till the status will be Active
-        cy.get('[data-qa="channel_name"] > i')
-            .invoke('attr', 'title')
-            .should('equal', 'Active');
+        const checkFunction = () =>
+            cy.get('[data-qa="channel_name"] > i')
+                .should('have.attr', 'title').then((title) => {
+                    expect(title).to.be.equal('Active');
+                cy.log(title)
+            });
 
-        //Send Message
-        cy.get('[aria-label="Send a message to MaksimSmilov00"]')
-            .type(`${textMessage}{enter}`);
+                // .invoke('attr', 'title')
+                // .should('equal', 'Active');
+
+        cy.waitUntil(checkFunction);
+
+            //Send Message
+            cy.get('[aria-label="Send a message to MaksimSmilov00"]')
+                .type(`${textMessage}{enter}`);
     });
 });
