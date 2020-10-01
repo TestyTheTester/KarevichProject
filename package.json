@@ -18,7 +18,8 @@
     "cy:open": "cypress open",
     "cy:first": "cypress run --spec=**/firstTest.spec.js --headed --browser chrome",
     "cy:second": "cypress run --spec=**/secondTest.spec.js --headed --browser chrome",
-    "cy:run": "concurrently \"npm run cy:second\" \"wait-on 'cypress/integration/Tests/firstTest.spec.js' && npm run cy:first\""
+    "cy:run": "concurrently \"npm run cy:second\" \"wait-on 'cypress/integration/Tests/firstTest.spec.js' && npm run cy:first\"",
+    "cy:run2": "concurrently \"npm run cy:second\" \"sleep 10 && npm run cy:first\""
   },
   "nyc": {
     "include": [

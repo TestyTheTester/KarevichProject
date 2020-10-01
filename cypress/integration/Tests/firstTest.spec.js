@@ -5,20 +5,14 @@ const lorem = new LoremIpsum({
     wordsPerSentence: { max: 5, min: 2 }
 });
 
-describe('Slack Tests', () => {
+describe('First User', () => {
     beforeEach(() => {
         cy.login('maksim.smilov00@gmail.com', 'qwe123QWE');
-
-        //message to force slack to put the desired status
-        cy.get(fields.generalInput).type(`Status updated{enter}`);
     });
 
     //Variables
     const buttons = {
         userProfileButton: '[data-qa="user-button"]',
-    };
-    const fields = {
-        generalInput: '[aria-label="Send a message to #general"]',
     };
 
     it('First Account', () => {
@@ -28,6 +22,7 @@ describe('Slack Tests', () => {
         cy.get(userActiveStatus).invoke('attr', 'title').then(userTitle => {
             const title = userTitle;
             cy.log(`Current Status = ${title}`);
+            console.log(`Current Status = ${title}`);
 
             //Opens user profile dropdown
             cy.get(buttons.userProfileButton).should('be.visible').click();
@@ -40,12 +35,14 @@ describe('Slack Tests', () => {
                     .find('[data-qa="menu_item_button"]')
                     .eq(0).click();
                 cy.log('Your status is changed to Active');
+                console.log('Your status is changed to Active');
 
             } else {
 
                 //Close profile menu
                 cy.get(buttons.userProfileButton).click({force: true});
                 cy.log('Your status is Active');
+                console.log('Your status is Active');
             }
         });
 
@@ -65,10 +62,12 @@ describe('Slack Tests', () => {
             .find('[data-qa="message_content"] .p-rich_text_section').then((textMessage) => {
             const newMessage = textMessage.text().trim();
             cy.log(newMessage);
+            console.log(newMessage);
 
             //Check than message is correct
             cy.readFile('menu.json').then((message) => {
                 cy.log(message.message);
+                console.log(message.message);
 
                 //Compare message from .json and last message from the chat
                 expect(message.message).to.include(newMessage);
@@ -78,5 +77,8 @@ describe('Slack Tests', () => {
         //Send Message
         cy.get('[aria-label="Send a message to MaksimSmilov11"]')
             .type(`${lorem.generateSentences(1)}{enter}`);
+
+        //Click ESC button to avoid some issues
+        cy.get('body').type('{esc}', {force: true});
     });
 });
