@@ -51,10 +51,7 @@ describe('First User', () => {
         cy.get(newMessageBadge).should('be.visible').click({force: true});
 
         //Waiting for page loads
-        cy.get('[data-qa="message_pane"]').last().should('be.visible');
-
-        //Waits only for new message
-        cy.get('#unreadDivider').should('contain', 'New');
+        cy.get('[data-qa="message_pane"]').should('be.visible');
 
         //Waiting for loading a message list and get last message
         cy.get('[data-qa="slack_kit_scrollbar"]').last()
@@ -74,11 +71,17 @@ describe('First User', () => {
             });
         });
 
-        //Send Message
-        cy.get('[aria-label="Send a message to MaksimSmilov11"]')
-            .type(`${lorem.generateSentences(1)}{enter}`);
-
         //Click ESC button to avoid some issues
         cy.get('body').type('{esc}', {force: true});
+
+        //Write text message to the .json
+        let textMessage = lorem.generateSentences(1);
+        cy.writeFile('menu.json', {user: 'MaksimSmilov00', message: textMessage});
+        cy.log(`My message ${textMessage}`);
+        console.log(`My message ${textMessage}`);
+
+        //Send Message
+        cy.get('[aria-label="Send a message to MaksimSmilov11"]')
+            .type(`${textMessage}{enter}`);
     });
 });

@@ -16,25 +16,25 @@ describe('Second User', () => {
 
         //Write text message to the .json
         let textMessage = lorem.generateSentences(1);
+        cy.writeFile('menu.json', {user: 'MaksimSmilov11', message: textMessage});
         cy.log(`My message ${textMessage}`);
         console.log(`My message ${textMessage}`);
 
-        cy.writeFile('menu.json', {user: 'MaksimSmilov11', message: textMessage});
-
-        //Opens PM
+        //Opens Private Messages with User1
         cy.contains('MaksimSmilov00').click({force: true});
-        cy.get('body').type('{esc}', {force: true});
 
         //Waiting for page loads
         cy.get('[data-qa="message_pane"]').should('be.visible');
+        cy.get('body').type('{esc}', {force: true});
 
-        //
+        //Checks the status of User1
         cy.get('[data-qa="channel_name"] > i')
             .invoke('attr', 'title')
-            .should('equal', 'Active');
+            .should('equal', 'Active').then(() => {
 
-        //Send Message
-        cy.get('[aria-label="Send a message to MaksimSmilov00"]')
-            .type(`${textMessage}{enter}`);
+            //Send new message
+            cy.get('[aria-label="Send a message to MaksimSmilov00"]')
+                .type(`${textMessage}{enter}`);
+        });
     });
 });
